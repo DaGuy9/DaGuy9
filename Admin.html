@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Page</title>
+    <style>
+        body {
+            text-align: center; /* Center the button */
+            background-color: #f0f0f0; /* Background color for the page */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px; /* Add some spacing between the table and button */
+            border-radius: 10px; /* Rounded corners for the table */
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer; /* Add cursor pointer to make cells clickable */
+        }
+
+        th {
+            background-color: #ccc;
+        }
+
+        td[contentEditable="true"] {
+            background-color: #ffffff; /* Background color for editable cells */
+            transition: background-color 0.3s; /* Smooth hover transition */
+            border-radius: 5px; /* Rounded corners for cells */
+        }
+
+        td[contentEditable="true"]:hover {
+            background-color: #f5f5f5; /* Background color on hover */
+        }
+
+        #randomize {
+            font-size: 18px; /* Make the button bigger */
+            background-color: #0074d9; /* Button background color */
+            color: #fff; /* Text color */
+            padding: 10px 20px; /* Add some padding to the button */
+            border: none; /* Remove button border */
+            cursor: pointer; /* Change cursor on hover */
+            border-radius: 5px; /* Rounded corners for the button */
+        }
+
+        #randomize:hover {
+            background-color: #0056b3; /* Button background color on hover */
+        }
+    </style>
+</head>
+<body>
+    <h2>Admin Page</h2>
+    <button id="randomize">Randomize Names</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Head</th>
+                <th>1st</th>
+                <th>2nd</th>
+                <th>3rd</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Scripture</th>
+                <td id="scripture" contentEditable="true"></td>
+                <td id="scripture1" contentEditable="true"></td>
+                <td id="scripture2" contentEditable="true"></td>
+                <td id="scripture3" contentEditable="true"></td>
+            </tr>
+            <tr>
+                <th>Mixer</th>
+                <td id="mixer" contentEditable="true"></td>
+                <td id="mixer1" contentEditable="true"></td>
+                <td id="mixer2" contentEditable="true"></td>
+                <td id="mixer3" contentEditable="true"></td>
+            </tr>
+            <tr>
+                <th>Choir</th>
+                <td id="choir" contentEditable="true"></td>
+                <td id="choir1" contentEditable="true"></td>
+                <td id="choir2" contentEditable="true"></td>
+                <td id="choir3" contentEditable="true"></td>
+            </tr>
+            <tr>
+                <th>Pastor</th>
+                <td id="pastor" contentEditable="true"></td>
+                <td id="pastor1" contentEditable="true"></td>
+                <td id="pastor2" contentEditable="true"></td>
+                <td id="pastor3" contentEditable="true"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // Function to randomize names
+        document.getElementById("randomize").addEventListener("click", function () {
+            randomizeTable();
+        });
+
+        // Function to shuffle and fill the table with random names
+        function randomizeTable() {
+            const cells = document.querySelectorAll("table tbody td[contentEditable='true']");
+            let names = Array.from(cells).map(cell => cell.textContent);
+            names = names.filter(name => name.trim() !== ""); // Remove empty names
+            names = shuffleArray(names);
+
+            cells.forEach((cell, index) => {
+                cell.textContent = names[index % names.length];
+            });
+
+            // Save the randomized data to local storage
+            saveToLocalStorage(names);
+        }
+
+        // Function to save data to local storage
+        function saveToLocalStorage(data) {
+            localStorage.setItem('randomizedData', JSON.stringify(data));
+        }
+
+        // Function to shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+    </script>
+</body>
+</html>
